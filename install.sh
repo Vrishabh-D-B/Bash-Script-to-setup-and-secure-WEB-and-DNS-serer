@@ -1,5 +1,5 @@
 # install bind9 dns server 
-apt update && apt install bind9 bind9utils bind9-doc
+apt update && apt install bind9 bind9utils bind9-doc -y
 process_id=$!
 wait $process_id
 
@@ -75,6 +75,8 @@ zone \"ourproject.me\" {
 };" > named.conf.local
 
 mv named.conf.local /etc/bind/
+process_id=$!
+wait $process_id
 
 
 #----------------------------------------------------------------
@@ -102,7 +104,31 @@ www     IN      A       $ipAddress
 mail    IN      A       $ipAddress
 external        IN      A       91.189.88.181" > db.$domainName
 
+mv db.$domainName /etc/bind/
+process_id=$!
+wait $process_id
+
 
 #----------------------------------------------------------------
 
 
+# restarting bind9
+systemctl restart bind9
+process_id=$!
+wait $process_id
+
+
+#----------------------------------------------------------------
+
+
+# Installing apache web server
+apt update && apt install apache2 ufw -y
+process_id=$!
+wait $process_id
+
+
+#---------------------------------------------------------
+
+
+# Allowing apache on ufw
+ufw allow 'Apache Full'
