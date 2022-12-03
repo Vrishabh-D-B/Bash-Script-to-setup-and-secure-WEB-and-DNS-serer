@@ -1,3 +1,3 @@
 # Setting up virtual hosting
-apt update > /Mylogs/log 2> /Mylogs.errlog
+apt update > /home/log 2> /home/errlog
 echo "updating system"
