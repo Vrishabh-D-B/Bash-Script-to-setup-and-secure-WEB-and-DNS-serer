@@ -130,7 +130,7 @@ echo "Setting up Virtual Hosting..."
 mkdir /var/www/$domainName
 chown -R www-data.www-data /var/www/$domainName/
 chmod 755 /var/www/$domainName/ 
-mkdir /etc/apache2/sites-available/
+mkdir /etc/apache2/sites-available/  > /home/logs 2> /home/errorLogs
 echo "<VirtualHost *:80>
   ServerName $domainName
   ServerAlias www.$domainName
@@ -139,4 +139,16 @@ echo "<VirtualHost *:80>
   CustomLog /var/log/apache2/$domainName.access.log combined
 </VirtualHost>" > $domainName.conf 
 cp $domainName.conf /etc/apache2/sites-available/
-a2ensite $domainName
+a2ensite $domainName  > /home/logs 2> /home/errorLogs
+process_id=$!
+wait $process_id
+
+#----------------------------------------------------------------
+
+# restarting apache2
+echo "Restarting apache2..."
+systemctl restart apache2
+process_id=$!
+wait $process_id
+
+#----------------------------------------------------------------
