@@ -1,4 +1,5 @@
 # install bind9 dns server 
+echo "Installing bind9..."
 apt update && apt install bind9 bind9utils bind9-doc -y
 process_id=$!
 wait $process_id
@@ -6,7 +7,7 @@ wait $process_id
 
 #----------------------------------------------------------------
 
-
+echo "Setting network protocol to ipv4..."
 # setting network protocol to ipv4
 mv named /etc/default/
 process_id=$!
@@ -15,7 +16,7 @@ wait $process_id
 
 #----------------------------------------------------------------
 
-
+echo "Restarting bind9..."
 # restarting bind9
 systemctl restart bind9
 process_id=$!
@@ -24,7 +25,7 @@ wait $process_id
 
 #----------------------------------------------------------------
 
-
+echo "Setting forwarders..."
 # setting up forwarders
 mv named.conf.options /etc/bind/
 process_id=$!
@@ -33,7 +34,7 @@ wait $process_id
 
 #----------------------------------------------------------------
 
-
+echo "Restarting bind9..."
 # restarting bind9
 systemctl restart bind9
 process_id=$!
@@ -59,7 +60,7 @@ wait $process_id
 
 #----------------------------------------------------------------
 
-
+echo "setting Authoritative dns server..."
 # setting Authoritative dns server
 echo "//
 // Do any local configuration here
@@ -81,7 +82,7 @@ wait $process_id
 
 #----------------------------------------------------------------
 
-
+echo "Generating Zone file..."
 # Generating Zone file
 echo "; BIND reverse data file for empty rfc1918 zone
 ;
@@ -111,7 +112,7 @@ wait $process_id
 
 #----------------------------------------------------------------
 
-
+echo "Restarting bind9..."
 # restarting bind9
 systemctl restart bind9
 process_id=$!
@@ -120,7 +121,7 @@ wait $process_id
 
 #----------------------------------------------------------------
 
-
+echo "Installing apache web server..."
 # Installing apache web server
 apt update && apt install apache2 ufw -y
 process_id=$!
@@ -129,6 +130,6 @@ wait $process_id
 
 #---------------------------------------------------------
 
-
+echo "Allowing apache on ufw..."
 # Allowing apache on ufw
 ufw allow 'Apache Full'
