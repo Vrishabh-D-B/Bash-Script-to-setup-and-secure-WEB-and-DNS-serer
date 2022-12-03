@@ -62,12 +62,12 @@ echo "//
 // organization
 //include \"/etc/bind/zones.rfc1918\";
 
-zone \"ourproject.me\" {
+zone \"$domainName\" {
         type master;
         file \"/etc/bind/db.$domainName\";
 };" > named.conf.local
 
-mv named.conf.local /etc/bind/
+cp named.conf.local /etc/bind/
 process_id=$!
 wait $process_id
 
@@ -96,7 +96,7 @@ www     IN      A       $ipAddress
 mail    IN      A       $ipAddress
 external        IN      A       91.189.88.181" > db.$domainName
 
-mv db.$domainName /etc/bind/
+cp db.$domainName /etc/bind/
 process_id=$!
 wait $process_id
 
