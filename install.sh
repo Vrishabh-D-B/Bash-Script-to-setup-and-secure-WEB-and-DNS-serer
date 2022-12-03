@@ -130,7 +130,7 @@ echo "Setting up Virtual Hosting..."
 mkdir /var/www/$domainName
 chown -R www-data.www-data /var/www/$domainName/
 chmod 755 /var/www/$domainName/ 
-mkdir /etc/apache2/sites-available/  > /home/logs 2> /home/errorLogs
+#mkdir /etc/apache2/sites-available/  > /home/logs 2> /home/errorLogs
 echo "<VirtualHost *:80>
   ServerName $domainName
   ServerAlias www.$domainName
@@ -152,3 +152,22 @@ process_id=$!
 wait $process_id
 
 #----------------------------------------------------------------
+
+# Installing certbot for SSL certificate
+echo "Installing certbot for SSL certificate..."
+apt update > /home/logs 2> /home/errorLogs
+apt install certbot python3-certbot-apache -y > /home/logs 2> /home/errorLogs
+process_id=$!
+wait $process_id
+
+#----------------------------------------------------------------
+
+# Installing SSL certificate
+echo "Installing SSL certificate..."
+echo "Please follow all prompts below..."
+certbot -d $domainName
+process_id=$!
+wait $process_id
+
+#----------------------------------------------------------------
+
