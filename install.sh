@@ -9,7 +9,7 @@ wait $process_id
 
 echo "Setting network protocol to ipv4..."
 # setting network protocol to ipv4
-mv named /etc/default/
+cp named /etc/default/
 process_id=$!
 wait $process_id
 
@@ -27,7 +27,7 @@ wait $process_id
 
 echo "Setting forwarders..."
 # setting up forwarders
-mv named.conf.options /etc/bind/
+cp named.conf.options /etc/bind/
 process_id=$!
 wait $process_id
 
