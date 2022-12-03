@@ -171,3 +171,23 @@ wait $process_id
 
 #----------------------------------------------------------------
 
+##################################################################
+# more steps remains
+##################################################################
+
+#----------------------------------------------------------------
+
+# Installing PHP and sql-MyAdmin
+echo "Installing certbot for SSL certificate..."
+apt update > /home/logs 2> /home/errorLogs
+apt install php php-mysql libapache2-mod-php -y > /home/logs 2> /home/errorLogs
+process_id=$!
+wait $process_id
+
+#----------------------------------------------------------------
+
+# restarting apache2
+echo "Restarting apache2..."
+systemctl restart apache2
+process_id=$!
+wait $process_id
