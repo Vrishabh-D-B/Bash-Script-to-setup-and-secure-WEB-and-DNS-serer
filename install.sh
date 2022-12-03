@@ -1,6 +1,7 @@
 # install bind9 dns server 
 echo "Installing bind9..."
-apt update && apt install bind9 bind9utils bind9-doc -y > /home/logs 2> /home/errorLogs
+apt update > /home/logs 2> /home/errorLogs
+apt install bind9 bind9utils bind9-doc -y > /home/logs 2> /home/errorLogs
 process_id=$!
 wait $process_id
 
@@ -123,7 +124,8 @@ wait $process_id
 
 echo "Installing apache web server..."
 # Installing apache web server
-apt update && apt install apache2 ufw -y > /home/logs 2> /home/errorLogs
+apt update > /home/logs 2> /home/errorLogs
+apt install apache2 ufw -y > /home/logs 2> /home/errorLogs
 process_id=$!
 wait $process_id
 
