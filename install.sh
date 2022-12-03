@@ -1,6 +1,6 @@
 # install bind9 dns server 
 echo "Installing bind9..."
-apt update && apt install bind9 bind9utils bind9-doc -y
+apt update && apt install bind9 bind9utils bind9-doc -y > /home/logs 2> /home/errorLogs
 process_id=$!
 wait $process_id
 
@@ -53,7 +53,7 @@ read domainName
 
 
 # setting ip Address
-ipAddress=$(curl ipinfo.io/ip)
+ipAddress=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 process_id=$!
 wait $process_id
 
@@ -123,7 +123,7 @@ wait $process_id
 
 echo "Installing apache web server..."
 # Installing apache web server
-apt update && apt install apache2 ufw -y
+apt update && apt install apache2 ufw -y > /home/logs 2> /home/errorLogs
 process_id=$!
 wait $process_id
 
@@ -132,4 +132,4 @@ wait $process_id
 
 echo "Allowing apache on ufw..."
 # Allowing apache on ufw
-ufw allow 'Apache Full'
+ufw allow 'Apache Full' > /home/logs 2> /home/errorLogs
