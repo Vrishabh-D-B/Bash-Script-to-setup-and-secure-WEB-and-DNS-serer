@@ -1,7 +1,7 @@
 # restarting bind9
 systemctl restart bind9
-
-wait 
+process_id=$!
+wait $process_id
 
 # setting up forwarders
 mv named.conf.options /etc/bind/
