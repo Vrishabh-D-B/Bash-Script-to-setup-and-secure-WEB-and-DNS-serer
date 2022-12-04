@@ -345,12 +345,52 @@ wait $process_id
 # Installing mysql-server
 printf "${YELLOW}Installing mysql-server..."
 apt install mysql-server -y > /home/logs 2> /home/errorLogs
+process_id=$!
+wait $process_id
 printf "\n${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
 # Securing mysql-server
-printf "${YELLOW}Securing mysql-server..."
+printf "${YELLOW}Securing mysql-server...\n"
+printf "${RED}Create user root password : "
+read passwd
+echo "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$passwd';" > test.sql
+mysql < test.sql
+printf "\n${RED}Enter the password you just created below,\nEnter ${CYAN}n${RED} for 2nd choice and ${CYAN}y${RED} for rest${NC}"
 mysql_secure_installation
 
+process_id=$!
+wait $process_id
+
+
+printf "\n${GREEN}DONE\n"
+
 #----------------------------------------------------------------
+
+# restarting apache2
+# printf "${YELLOW}Restarting apache2...\n"
+systemctl restart apache2
+process_id=$!
+wait $process_id
+
+#----------------------------------------------------------------
+
+# Installing phpMyAdmin
+printf "${YELLOW}Installing phpMyAdmin...\n"
+echo "UNINSTALL COMPONENT \"file://component_validate_password\"" > test.sql
+mysql -u root -p$passwd < test.sql
+apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y > /home/logs 2> /home/errorLogs
+process_id=$!
+wait $process_id
+phpenmod mbstring
+
+#----------------------------------------------------------------
+
+# restarting apache2
+# printf "${YELLOW}Restarting apache2...\n"
+systemctl restart apache2
+process_id=$!
+wait $process_id
+
+
