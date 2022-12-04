@@ -146,7 +146,10 @@ printf "${GREEN}DONE\n"
 
 # Setting up Virtual Hosting
 printf "${YELLOW}Setting up Virtual Hosting...\n"
-mkdir /var/www/$domainName
+if [ !-d "/etc/apache2/sites-available/" ]; then
+  mkdir /var/www/$domainName
+fi
+
 chown -R www-data.www-data /var/www/$domainName/
 chmod 755 /var/www/$domainName/ 
 if [ !-d "/etc/apache2/sites-available/" ]; then
@@ -189,7 +192,7 @@ printf "${GREEN}DONE\n"
 
 # Installing SSL certificate
 printf "${YELLOW}Installing SSL certificate...\n"
-printf "${RED}Please follow all prompts below...\n"
+printf "${RED}Please follow all prompts below...${NC}\n"
 certbot -d $domainName
 process_id=$!
 wait $process_id
