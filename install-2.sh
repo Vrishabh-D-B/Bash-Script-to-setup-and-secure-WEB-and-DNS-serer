@@ -21,11 +21,11 @@ mkdir /var/www/$domainName/$directoryToProtect
 sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 
-# echo "
-# <Directory /var/www/$domainName/$directoryToProtect>
-#   Require all denied
-#   Require ip $ipAddress
-# </Directory>
+echo "
+<Directory /var/www/$domainName/$directoryToProtect>
+  Require all denied
+  Require ip $ipAddress
+</Directory>
 
-# </VirtualHost>
-# </IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
+</VirtualHost>
+</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
