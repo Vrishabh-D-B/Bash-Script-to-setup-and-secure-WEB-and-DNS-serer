@@ -228,16 +228,14 @@ printf "${GREEN}DONE\n${NC}"
 #----------------------------------------------------------------
 
 # Directory to protect
-printf "${RED}Do want to protect certain directories from outsite acess (for eg:- yourwebsite.com/admin) ${CYAN}(y/n)\n"
+printf "${RED}Do want to protect certain directories from outsite acess (for eg:- yourwebsite.com/admin) ${CYAN}(y/n):"
 read yORn
 
 if [[ "$yORn" == "y" ]]; then
   wishToAddMore="y"
   until [[ $wishToAddMore == "n" ]] 
   do
-    printf "${RED}Enter Directory name you want to protect 
-    (for eg:- if you want to protect access to yourwebsite.com/admin/
-    Enter \"admin\" below without quotes):${NC} \n"
+    printf "${RED}Enter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC} \n"
     read directoryToProtect
 
     if [ ! -d "$directoryToProtect" ]; then
@@ -247,14 +245,7 @@ if [[ "$yORn" == "y" ]]; then
     sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
     sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 
-    echo "
-    <Directory /var/www/$domainName/$directoryToProtect>
-      Require all denied
-      Require ip $ipAddress
-    </Directory>
-
-    </VirtualHost>
-    </IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
+    echo -e \n"<Directory /var/www/$domainName/$directoryToProtect>\nRequire all denied\nRequire ip $ipAddress\n</Directory>\n\n</VirtualHost>\n</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
 
     printf "${GREEN}DONE\n"
     printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}"
@@ -262,3 +253,4 @@ if [[ "$yORn" == "y" ]]; then
     read wishToAddMore
   done
 fi
+printf "${GREEN}DONE${NC}\n"
