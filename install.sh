@@ -148,7 +148,7 @@ printf "${GREEN}DONE\n"
 
 # Setting up Virtual Hosting
 printf "${YELLOW}Setting up Virtual Hosting...\n"
-if [ ! -d "/etc/apache2/sites-available/" ]; then
+if [ ! -d "/var/www/$domainName" ]; then
   mkdir /var/www/$domainName
 fi
 
