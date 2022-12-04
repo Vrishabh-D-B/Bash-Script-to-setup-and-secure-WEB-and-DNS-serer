@@ -40,7 +40,7 @@ wait $process_id
 #----------------------------------------------------------------
 
 # Reading domain name from user
-echo "Enter your Domain name (for eg: ourproject.me)"
+echo "Enter your Domain name (for eg:- yourwebsite.com )"
 read domainName
 
 #----------------------------------------------------------------
@@ -178,7 +178,7 @@ wait $process_id
 #----------------------------------------------------------------
 
 # Installing PHP and sql-MyAdmin
-echo "Installing certbot for SSL certificate..."
+echo "Installing PHP and sql-MyAdmin..."
 apt update > /home/logs 2> /home/errorLogs
 apt install php php-mysql libapache2-mod-php -y > /home/logs 2> /home/errorLogs
 process_id=$!
