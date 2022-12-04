@@ -235,7 +235,7 @@ if [[ "$yORn" == "y" ]]; then
   wishToAddMore="y"
   until [[ $wishToAddMore == "n" ]] 
   do
-    printf "${RED}Enter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC} \n"
+    printf "${RED}\nEnter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC}"
     read directoryToProtect
 
     if [ ! -d "$directoryToProtect" ]; then
@@ -248,7 +248,7 @@ if [[ "$yORn" == "y" ]]; then
     echo -e \n"<Directory /var/www/$domainName/$directoryToProtect>\nRequire all denied\nRequire ip $ipAddress\n</Directory>\n\n</VirtualHost>\n</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
 
     printf "${GREEN}DONE\n"
-    printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}"
+    printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}\n"
     printf "${RED}Do wish to add more Directories ${CYAN}(y/n):${NC}"
     read wishToAddMore
   done
