@@ -379,8 +379,9 @@ wait $process_id
 # Installing phpMyAdmin
 printf "${YELLOW}Installing phpMyAdmin...\n"
 echo "UNINSTALL COMPONENT \"file://component_validate_password\"" > test.sql
-mysql -u root -p$passwd < test.sql
-apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y > /home/logs 2> /home/errorLogs
+export MYSQLPWD=$passwd
+MYSQL_PWD="$MYSQLPWD" mysql -u root < test.sql
+apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
 process_id=$!
 wait $process_id
 phpenmod mbstring
