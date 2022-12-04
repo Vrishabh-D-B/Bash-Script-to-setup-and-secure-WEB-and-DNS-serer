@@ -146,13 +146,13 @@ printf "${GREEN}DONE\n"
 
 # Setting up Virtual Hosting
 printf "${YELLOW}Setting up Virtual Hosting...\n"
-if [ !-d "/etc/apache2/sites-available/" ]; then
+if [ ! -d "/etc/apache2/sites-available/" ]; then
   mkdir /var/www/$domainName
 fi
 
 chown -R www-data.www-data /var/www/$domainName/
 chmod 755 /var/www/$domainName/ 
-if [ !-d "/etc/apache2/sites-available/" ]; then
+if [ ! -d "/etc/apache2/sites-available/" ]; then
   mkdir /etc/apache2/sites-available/
 fi
 

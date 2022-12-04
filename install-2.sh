@@ -26,7 +26,7 @@ printf "${RED}Enter Directory name you want to protect
 Enter \"admin\" below without quotes): \n"
 read directoryToProtect
 
-if [ !-d "$directoryToProtect" ]; then
+if [ ! -d "$directoryToProtect" ]; then
   mkdir /var/www/$domainName/$directoryToProtect
 fi
 
