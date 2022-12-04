@@ -396,4 +396,47 @@ systemctl restart apache2
 process_id=$!
 wait $process_id
 
+#----------------------------------------------------------------
+
+# Prerequisite to WordPress
+printf "${YELLOW}+++Prerequisite to WordPress+++${NC}\n"
+
+printf "${YELLOW}Creating DATABASE called wordpress... ${NC}\n"
+echo "CREATE DATABASE wordpress" > test.sql
+export MYSQLPWD=$passwd
+MYSQL_PWD="$MYSQLPWD" mysql -u root < test.sql
+
+printf "${YELLOW}Creating user for wordpress database... ${NC}\n"
+printf "${RED}Enter new username : ${NC}"
+read wordpressUserName
+printf "${RED}Enter new password for $wordpressUserName : ${NC}"
+read wordpressUserPassword
+echo "CREATE USER '$wordpressUserName'@'localhost' IDENTIFIED BY '$wordpressUserPassword'" > test.sql
+export MYSQLPWD=$passwd
+MYSQL_PWD="$MYSQLPWD" mysql -u root < test.sql
+
+echo "GRANT ALL PRIVILEGES ON wordpress.* TO '$wordpressUserName'@'localhost'" > test.sql
+export MYSQLPWD=$passwd
+MYSQL_PWD="$MYSQLPWD" mysql -u root < test.sql
+
+echo "FLUSH PRIVILEGES" > test.sql
+export MYSQLPWD=$passwd
+MYSQL_PWD="$MYSQLPWD" mysql -u root < test.sql
+
+printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
+
+# Installing WordPress
+printf "${YELLOW}Installing WordPress...${NC}\n"
+printf "${YELLOW}Installing WordPress...${NC}\n"
+wget -P /tmp/ https://wordpress.org/latest.tar.gz > /home/logs 2> /home/errorLogs
+tar -xzvf /tmp/latest.tar.gz -C /tmp/ > /home/logs 2> /home/errorLogs
+mv /tmp/wordpress/* /var/www/$domainName/
+printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
+
+printf "${CYAN} Enter your domain name into any browser's address bar and Finist Installation${NC}\n"
+
 
