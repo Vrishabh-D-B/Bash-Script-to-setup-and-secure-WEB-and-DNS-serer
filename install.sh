@@ -167,7 +167,7 @@ echo "<VirtualHost *:80>
   CustomLog /var/log/apache2/$domainName.access.log combined
 </VirtualHost>" > /etc/apache2/sites-available/$domainName.conf 
  
-a2ensite $domainName  #> /home/logs 2> /home/errorLogs
+a2ensite $domainName  > /home/logs 2> /home/errorLogs
 process_id=$!
 wait $process_id
 printf "${GREEN}DONE\n"
@@ -386,6 +386,7 @@ apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl -y
 process_id=$!
 wait $process_id
 phpenmod mbstring
+printf "${GREEN}DONE\n${NC}"
 
 #----------------------------------------------------------------
 
