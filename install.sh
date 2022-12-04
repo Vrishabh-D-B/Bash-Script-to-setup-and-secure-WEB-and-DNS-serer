@@ -216,6 +216,7 @@ if [[ "$yORn" == "y" ]]; then
 
     if [ ! -d "/var/www/$domainName/$directoryToProtect" ]; then
       mkdir /var/www/$domainName/$directoryToProtect
+      echo "This is inside $directoryToProtect Directory" > index.html
       sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
       sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 
@@ -269,6 +270,7 @@ if [[ "$yORn" == "y" ]]; then
 
     if [ ! -d "/var/www/$domainName/$directoryToProtect" ]; then
       mkdir /var/www/$domainName/$directoryToProtect
+      echo "This is inside $directoryToProtect Directory" > index.html
       sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
       sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 
@@ -429,7 +431,6 @@ printf "${GREEN}DONE\n${NC}"
 
 # Installing WordPress
 printf "${YELLOW}Installing WordPress...${NC}\n"
-printf "${YELLOW}Installing WordPress...${NC}\n"
 wget -P /tmp/ https://wordpress.org/latest.tar.gz > /home/logs 2> /home/errorLogs
 tar -xzvf /tmp/latest.tar.gz -C /tmp/ > /home/logs 2> /home/errorLogs
 mv /tmp/wordpress/* /var/www/$domainName/
@@ -437,6 +438,6 @@ printf "${GREEN}DONE\n${NC}"
 
 #----------------------------------------------------------------
 
-printf "${CYAN} Enter your domain name into any browser's address bar and Finist Installation${NC}\n"
+printf "${CYAN}Enter your domain name into any browser's address bar and Finist Installation${NC}\n"
 
 
