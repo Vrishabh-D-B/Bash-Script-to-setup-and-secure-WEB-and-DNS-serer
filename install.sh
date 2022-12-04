@@ -238,7 +238,7 @@ if [[ "$yORn" == "y" ]]; then
     printf "${RED}\nEnter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC}"
     read directoryToProtect
 
-    if [ ! -d "$directoryToProtect" ]; then
+    if [ ! -d "/var/www/$domainName/$directoryToProtect" ]; then
       mkdir /var/www/$domainName/$directoryToProtect
       sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
       sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
@@ -250,7 +250,7 @@ if [[ "$yORn" == "y" ]]; then
       printf "${RED}Do wish to add more Directories ${CYAN}(y/n):${NC}"
       read wishToAddMore
     else
-      printf "\n${YELLOW}Directory already exits in use different name${NC}\n"
+      printf "\n${YELLOW}Directory already exits use different name${NC}\n"
     fi
     
   done
