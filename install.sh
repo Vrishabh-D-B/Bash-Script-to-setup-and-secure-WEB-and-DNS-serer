@@ -301,12 +301,29 @@ sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 
 echo -e "\n<Directory /var/www/$domainName>\nAllowOverride All\nOptions -Indexes\n</Directory>\n\n</VirtualHost>\n</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
-printf "${GREEN}DONE\n${NC}"
+printf "\n${GREEN}DONE\n${NC}"
 
 
 #----------------------------------------------------------------
 
-# Installing PHP and sql-MyAdmin
+# Hiding additional information on 403 Forbidden page 
+printf "${YELLOW}Hiding additional information on 403 Forbidden page\n"
+sed -i 's/ServerSignature On/ServerSignature Off/g' /etc/apache2/conf-available/security.conf
+sed -i 's/ServerTokens OS/ServerTokens Prod/g' /etc/apache2/conf-available/security.conf
+printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
+
+# restarting apache2
+printf "${YELLOW}Restarting apache2...\n"
+systemctl restart apache2
+process_id=$!
+wait $process_id
+printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
+
+# Installing PHP and phy-mysql
 printf "${YELLOW}Installing PHP and sql-MyAdmin...\n"
 apt update > /home/logs 2> /home/errorLogs
 apt install php php-mysql libapache2-mod-php -y > /home/logs 2> /home/errorLogs
