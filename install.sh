@@ -310,7 +310,7 @@ printf "\n${GREEN}DONE\n${NC}"
 #----------------------------------------------------------------
 
 # Hiding additional information on 403 Forbidden page 
-printf "${YELLOW}Hiding additional information on 403 Forbidden page\n"
+printf "${YELLOW}Hiding additional information on 403 Forbidden page...\n"
 sed -i 's/ServerSignature On/ServerSignature Off/g' /etc/apache2/conf-available/security.conf
 sed -i 's/ServerTokens OS/ServerTokens Prod/g' /etc/apache2/conf-available/security.conf
 printf "${GREEN}DONE\n${NC}"
