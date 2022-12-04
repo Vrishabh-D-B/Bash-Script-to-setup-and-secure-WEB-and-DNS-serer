@@ -221,4 +221,4 @@ printf "${YELLOW}Restarting apache2...\n"
 systemctl restart apache2
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n"
+printf "${GREEN}DONE\n${NC}"
