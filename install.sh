@@ -29,11 +29,11 @@ printf "${GREEN}DONE\n"
 #----------------------------------------------------------------
 
 # Restarting bind9
-printf "${YELLOW}Restarting bind9...\n"
+# printf "${YELLOW}Restarting bind9...\n"
 systemctl restart bind9
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n"
+# printf "${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
@@ -47,11 +47,11 @@ printf "${GREEN}DONE\n"
 #----------------------------------------------------------------
 
 # Restarting bind9
-printf "${YELLOW}Restarting bind9...\n"
+# printf "${YELLOW}Restarting bind9...\n"
 systemctl restart bind9
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n"
+# printf "${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
@@ -121,11 +121,11 @@ printf "${GREEN}DONE\n"
 #----------------------------------------------------------------
 
 # restarting bind9
-printf "${YELLOW}Restarting bind9...\n"
+# printf "${YELLOW}Restarting bind9...\n"
 systemctl restart bind9
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n"
+# printf "${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
@@ -174,11 +174,11 @@ printf "${GREEN}DONE\n"
 #----------------------------------------------------------------
 
 # restarting apache2
-printf "${YELLOW}Restarting apache2...\n"
+# printf "${YELLOW}Restarting apache2...\n"
 systemctl restart apache2
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n"
+# printf "${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
@@ -235,11 +235,11 @@ printf "${GREEN}DONE${NC}\n"
 #----------------------------------------------------------------
 
 # restarting apache2
-printf "${YELLOW}Restarting apache2...\n"
+# printf "${YELLOW}Restarting apache2...\n"
 systemctl restart apache2
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n${NC}"
+# printf "${GREEN}DONE\n${NC}"
 
 #----------------------------------------------------------------
 
@@ -287,11 +287,11 @@ fi
 #----------------------------------------------------------------
 
 # restarting apache2
-printf "${YELLOW}Restarting apache2...\n"
+# printf "${YELLOW}Restarting apache2...\n"
 systemctl restart apache2
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n${NC}"
+# printf "${GREEN}DONE\n${NC}"
 
 #----------------------------------------------------------------
 
@@ -315,11 +315,11 @@ printf "${GREEN}DONE\n${NC}"
 #----------------------------------------------------------------
 
 # restarting apache2
-printf "${YELLOW}Restarting apache2...\n"
+# printf "${YELLOW}Restarting apache2...\n"
 systemctl restart apache2
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n${NC}"
+# printf "${GREEN}DONE\n${NC}"
 
 #----------------------------------------------------------------
 
@@ -334,10 +334,23 @@ printf "${GREEN}DONE\n"
 #----------------------------------------------------------------
 
 # restarting apache2
-printf "${YELLOW}Restarting apache2...\n"
+# printf "${YELLOW}Restarting apache2...\n"
 systemctl restart apache2
 process_id=$!
 wait $process_id
-printf "${GREEN}DONE\n${NC}"
+# printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
+
+# Installing mysql-server
+printf "${YELLOW}Installing mysql-server..."
+apt install mysql-server -y > /home/logs 2> /home/errorLogs
+printf "\n${GREEN}DONE\n"
+
+#----------------------------------------------------------------
+
+# Securing mysql-server
+printf "${YELLOW}Securing mysql-server..."
+mysql_secure_installation
 
 #----------------------------------------------------------------
