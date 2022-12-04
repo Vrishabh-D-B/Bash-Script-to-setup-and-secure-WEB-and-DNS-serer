@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Colors
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
@@ -181,22 +183,22 @@ printf "${GREEN}DONE\n"
 #----------------------------------------------------------------
 
 # Installing certbot for SSL certificate
-printf "${YELLOW}Installing certbot for SSL certificate...\n"
-apt update > /home/logs 2> /home/errorLogs
-apt install certbot python3-certbot-apache -y > /home/logs 2> /home/errorLogs
-process_id=$!
-wait $process_id
-printf "${GREEN}DONE\n"
+# printf "${YELLOW}Installing certbot for SSL certificate...\n"
+# apt update > /home/logs 2> /home/errorLogs
+# apt install certbot python3-certbot-apache -y > /home/logs 2> /home/errorLogs
+# process_id=$!
+# wait $process_id
+# printf "${GREEN}DONE\n"
 
-#----------------------------------------------------------------
+# #----------------------------------------------------------------
 
-# Installing SSL certificate
-printf "${YELLOW}Installing SSL certificate...\n"
-printf "${RED}Please follow all prompts below...${NC}\n"
-certbot -d $domainName
-process_id=$!
-wait $process_id
-printf "${GREEN}DONE\n"
+# # Installing SSL certificate
+# printf "${YELLOW}Installing SSL certificate...\n"
+# printf "${RED}Please follow all prompts below...${NC}\n"
+# certbot -d $domainName
+# process_id=$!
+# wait $process_id
+# printf "${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
@@ -222,3 +224,41 @@ systemctl restart apache2
 process_id=$!
 wait $process_id
 printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
+
+# Directory to protect
+printf "${RED}Do want to protect certain directories from outsite acess (for eg:- yourwebsite.com/admin) ${CYAN}(y/n)\n"
+read yORn
+
+if [ "$yORn" -eq "y" ]; then
+  wishToAddMore="y"
+  until [ $wishToAddMore -ne "n" ] do
+    printf "${RED}Enter Directory name you want to protect 
+    (for eg:- if you want to protect access to yourwebsite.com/admin/
+    Enter \"admin\" below without quotes):${NC} \n"
+    read directoryToProtect
+
+    if [ ! -d "$directoryToProtect" ]; then
+      mkdir /var/www/$domainName/$directoryToProtect
+    fi
+
+    sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
+    sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
+
+    echo "
+    <Directory /var/www/$domainName/$directoryToProtect>
+      Require all denied
+      Require ip $ipAddress
+    </Directory>
+
+    </VirtualHost>
+    </IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
+
+    printf "${GREEN}DONE\n"
+    printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}"
+    printf "${RED}Do wish to add more Directories ${CYAN}(y/n):${NC}"
+    read wishToAddMore
+  done
+
+fi
