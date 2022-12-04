@@ -202,31 +202,6 @@ printf "${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
-##################################################################
-# more steps remains
-##################################################################
-
-#----------------------------------------------------------------
-
-# Installing PHP and sql-MyAdmin
-printf "${YELLOW}Installing PHP and sql-MyAdmin...\n"
-apt update > /home/logs 2> /home/errorLogs
-apt install php php-mysql libapache2-mod-php -y > /home/logs 2> /home/errorLogs
-process_id=$!
-wait $process_id
-printf "${GREEN}DONE\n"
-
-#----------------------------------------------------------------
-
-# restarting apache2
-printf "${YELLOW}Restarting apache2...\n"
-systemctl restart apache2
-process_id=$!
-wait $process_id
-printf "${GREEN}DONE\n${NC}"
-
-#----------------------------------------------------------------
-
 # Directory to protect
 printf "${RED}Do want to protect certain directories from outsite acess (for eg:- yourwebsite.com/admin) ${CYAN}(y/n):"
 read yORn
@@ -300,7 +275,7 @@ if [[ "$yORn" == "y" ]]; then
       a2enmod auth_digest > /home/logs 2> /home/errorLogs
 
       printf "${GREEN}DONE\n"
-      printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}\n"
+      printf "${CYAN}Now $domainName/$directoryToProtect is password protected\n${NC}\n"
       printf "${RED}Do wish to add more Directories ${CYAN}(y/n):${NC}"
       read wishToAddMore
     else
@@ -308,6 +283,36 @@ if [[ "$yORn" == "y" ]]; then
     fi
   done
 fi
+
+#----------------------------------------------------------------
+
+# restarting apache2
+printf "${YELLOW}Restarting apache2...\n"
+systemctl restart apache2
+process_id=$!
+wait $process_id
+printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
+
+# Disabling Indexing and FollowSymlinks option
+printf "${YELLOW}Disabling Indexing and FollowSymlinks option..."
+sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
+sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
+
+echo -e "\n<Directory /var/www/$domainName>\nAllowOverride All\nOptions -Indexes\n</Directory>\n\n</VirtualHost>\n</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
+printf "${GREEN}DONE\n${NC}"
+
+
+#----------------------------------------------------------------
+
+# Installing PHP and sql-MyAdmin
+printf "${YELLOW}Installing PHP and sql-MyAdmin...\n"
+apt update > /home/logs 2> /home/errorLogs
+apt install php php-mysql libapache2-mod-php -y > /home/logs 2> /home/errorLogs
+process_id=$!
+wait $process_id
+printf "${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
