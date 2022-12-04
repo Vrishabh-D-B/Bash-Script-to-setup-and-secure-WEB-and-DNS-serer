@@ -1,10 +1,10 @@
 #! /bin/bash
 
 # Colors
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
+BLUE='\033[1;34m'
+YELLOW='\033[1;33m'
 GREEN='\033[1;32m'
-CYAN='\033[0;36m' 
+PURPLE='\033[1;35m' 
 NC='\033[0m' # No Color
 
 #----------------------------------------------------------------
@@ -56,7 +56,7 @@ wait $process_id
 #----------------------------------------------------------------
 
 # Reading domain name from user
-printf "${RED}Enter your Domain name (for eg:- yourwebsite.com )${NC}\n"
+printf "${BLUE}Enter your Domain name (for eg:- yourwebsite.com )${NC}\n"
 read domainName
 
 #----------------------------------------------------------------
@@ -195,7 +195,7 @@ printf "${GREEN}DONE\n"
 
 # Installing SSL certificate
 printf "${YELLOW}Installing SSL certificate...\n"
-printf "${RED}Please follow all prompts below...${NC}\n"
+printf "${BLUE}Please follow all prompts below...${NC}\n"
 certbot -d $domainName
 process_id=$!
 wait $process_id
@@ -204,14 +204,14 @@ printf "${GREEN}DONE\n"
 #----------------------------------------------------------------
 
 # Directory to protect
-printf "${RED}Do want to protect certain directories from outsite acess (for eg:- yourwebsite.com/admin) ${CYAN}(y/n):"
+printf "${BLUE}Do want to protect certain directories from outsite acess (for eg:- yourwebsite.com/admin) ${PURPLE}(y/n):"
 read yORn
 
 if [[ "$yORn" == "y" ]]; then
   wishToAddMore="y"
   until [[ $wishToAddMore == "n" ]] 
   do
-    printf "${RED}\nEnter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC}"
+    printf "${BLUE}\nEnter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC}"
     read directoryToProtect
 
     if [ ! -d "/var/www/$domainName/$directoryToProtect" ]; then
@@ -223,8 +223,8 @@ if [[ "$yORn" == "y" ]]; then
       echo -e "\n<Directory /var/www/$domainName/$directoryToProtect>\nRequire all denied\nRequire ip $ipAddress\n</Directory>\n\n</VirtualHost>\n</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
 
       printf "${GREEN}DONE\n"
-      printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}\n"
-      printf "${RED}Do wish to add more Directories ${CYAN}(y/n):${NC}"
+      printf "${PURPLE}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}\n"
+      printf "${BLUE}Do wish to add more Directories ${PURPLE}(y/n):${NC}"
       read wishToAddMore
     else
       printf "\n${YELLOW}Directory already exits use different name${NC}\n"
@@ -246,7 +246,7 @@ wait $process_id
 #----------------------------------------------------------------
 
 # HTTP Digest Authentication
-printf "${RED}Do want to protect certain directories using username and password ? ${CYAN}(y/n):"
+printf "${BLUE}Do want to protect certain directories using username and password ? ${PURPLE}(y/n):"
 read yORn
 
 if [[ "$yORn" == "y" ]]; then
@@ -255,7 +255,7 @@ if [[ "$yORn" == "y" ]]; then
   process_id=$!
   wait $process_id
 
-  printf "\n${RED}Enter user name :"
+  printf "\n${BLUE}Enter user name :"
   read userName
   
   htdigest -c /etc/apache2/.htpasswd myserver $userName
@@ -265,7 +265,7 @@ if [[ "$yORn" == "y" ]]; then
   wishToAddMore="y"
   until [[ $wishToAddMore == "n" ]] 
   do
-    printf "${RED}\nEnter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC}"
+    printf "${BLUE}\nEnter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC}"
     read directoryToProtect
 
     if [ ! -d "/var/www/$domainName/$directoryToProtect" ]; then
@@ -278,8 +278,8 @@ if [[ "$yORn" == "y" ]]; then
       a2enmod auth_digest > /home/logs 2> /home/errorLogs
 
       printf "${GREEN}DONE\n"
-      printf "${CYAN}Now $domainName/$directoryToProtect is password protected\n${NC}\n"
-      printf "${RED}Do wish to add more Directories ${CYAN}(y/n):${NC}"
+      printf "${PURPLE}Now $domainName/$directoryToProtect is password protected\n${NC}\n"
+      printf "${BLUE}Do wish to add more Directories ${PURPLE}(y/n):${NC}"
       read wishToAddMore
     else
       printf "\n${YELLOW}Directory already exits use different name${NC}\n"
@@ -356,11 +356,11 @@ printf "\n${GREEN}DONE\n"
 
 # Securing mysql-server
 printf "${YELLOW}Securing mysql-server...\n"
-printf "${RED}Create user root password : "
+printf "${BLUE}Create user root password : "
 read passwd
 echo "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$passwd';" > test.sql
 mysql < test.sql
-printf "\n${RED}Enter the password you just created below,\nEnter ${CYAN}n${RED} for 2nd choice and ${CYAN}y${RED} for rest${NC}"
+printf "\n${BLUE}Enter the password you just created below,\nEnter ${PURPLE}n${BLUE} for 2nd choice and ${PURPLE}y${BLUE} for rest${NC}"
 mysql_secure_installation
 
 process_id=$!
@@ -409,9 +409,9 @@ export MYSQLPWD=$passwd
 MYSQL_PWD="$MYSQLPWD" mysql -u root < test.sql
 
 printf "${YELLOW}Creating user for wordpress database... ${NC}\n"
-printf "${RED}Enter new username : ${NC}"
+printf "${BLUE}Enter new username : ${NC}"
 read wordpressUserName
-printf "${RED}Enter new password for $wordpressUserName : ${NC}"
+printf "${BLUE}Enter new password for $wordpressUserName : ${NC}"
 read wordpressUserPassword
 echo "CREATE USER '$wordpressUserName'@'localhost' IDENTIFIED BY '$wordpressUserPassword'" > test.sql
 export MYSQLPWD=$passwd
@@ -438,6 +438,6 @@ printf "${GREEN}DONE\n${NC}"
 
 #----------------------------------------------------------------
 
-printf "${CYAN}Enter your domain name into any browser's address bar and Finist Installation${NC}\n"
+printf "${PURPLE}Enter your domain name into any browser's address bar and Finist Installation${NC}\n"
 
 
