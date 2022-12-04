@@ -403,12 +403,12 @@ wait $process_id
 # Prerequisite to WordPress
 printf "${YELLOW}+++Prerequisite to WordPress+++${NC}\n"
 
-printf "${YELLOW}Creating DATABASE called wordpress... ${NC}\n"
+printf "${YELLOW}Creating DATABASE called ${PURPLE}wordpress... ${NC}\n"
 echo "CREATE DATABASE wordpress" > test.sql
 export MYSQLPWD=$passwd
 MYSQL_PWD="$MYSQLPWD" mysql -u root < test.sql
 
-printf "${YELLOW}Creating user for wordpress database... ${NC}\n"
+printf "${YELLOW}Creating user for ${PURPLE}wordpress ${YELLOW}database... ${NC}\n"
 printf "${BLUE}Enter new username : ${NC}"
 read wordpressUserName
 printf "${BLUE}Enter new password for $wordpressUserName : ${NC}"
@@ -438,6 +438,6 @@ printf "${GREEN}DONE\n${NC}"
 
 #----------------------------------------------------------------
 
-printf "${PURPLE}Enter your domain name into any browser's address bar and Finist Installation${NC}\n"
+printf "${PURPLE}Enter your domain name into any browser's address bar and Finish Installation${NC}\n\n\n\n"
 
 
