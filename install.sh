@@ -147,13 +147,14 @@ printf "${GREEN}DONE\n"
 #---------------------------------------------------------
 
 # Setting up Virtual Hosting
-printf "${YELLOW}Setting up Virtual Hosting...\n"
+printf "${YELLOW}Setting up Virtual Hosting...${NC}\n"
 if [ ! -d "/var/www/$domainName" ]; then
   mkdir /var/www/$domainName
 fi
 
 chown -R www-data.www-data /var/www/$domainName/
 chmod 755 /var/www/$domainName/ 
+
 if [ ! -d "/etc/apache2/sites-available/" ]; then
   mkdir /etc/apache2/sites-available/
 fi
@@ -164,9 +165,9 @@ echo "<VirtualHost *:80>
   DocumentRoot /var/www/$domainName
   ErrorLog /var/log/apache2/$domainName.error.log
   CustomLog /var/log/apache2/$domainName.access.log combined
-</VirtualHost>" > $domainName.conf 
-cp $domainName.conf /etc/apache2/sites-available/
-a2ensite $domainName  > /home/logs 2> /home/errorLogs
+</VirtualHost>" > /etc/apache2/sites-available/$domainName.conf 
+ 
+a2ensite $domainName  #> /home/logs 2> /home/errorLogs
 process_id=$!
 wait $process_id
 printf "${GREEN}DONE\n"
@@ -377,7 +378,7 @@ wait $process_id
 #----------------------------------------------------------------
 
 # Installing phpMyAdmin
-printf "${YELLOW}Installing phpMyAdmin...\n"
+printf "${YELLOW}Installing phpMyAdmin...${NC}\n"
 echo "UNINSTALL COMPONENT \"file://component_validate_password\"" > test.sql
 export MYSQLPWD=$passwd
 MYSQL_PWD="$MYSQLPWD" mysql -u root < test.sql
