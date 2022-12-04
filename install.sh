@@ -183,22 +183,22 @@ wait $process_id
 #----------------------------------------------------------------
 
 # Installing certbot for SSL certificate
-# printf "${YELLOW}Installing certbot for SSL certificate...\n"
-# apt update > /home/logs 2> /home/errorLogs
-# apt install certbot python3-certbot-apache -y > /home/logs 2> /home/errorLogs
-# process_id=$!
-# wait $process_id
-# printf "${GREEN}DONE\n"
+printf "${YELLOW}Installing certbot for SSL certificate...\n"
+apt update > /home/logs 2> /home/errorLogs
+apt install certbot python3-certbot-apache -y > /home/logs 2> /home/errorLogs
+process_id=$!
+wait $process_id
+printf "${GREEN}DONE\n"
 
-# #----------------------------------------------------------------
+#----------------------------------------------------------------
 
-# # Installing SSL certificate
-# printf "${YELLOW}Installing SSL certificate...\n"
-# printf "${RED}Please follow all prompts below...${NC}\n"
-# certbot -d $domainName
-# process_id=$!
-# wait $process_id
-# printf "${GREEN}DONE\n"
+# Installing SSL certificate
+printf "${YELLOW}Installing SSL certificate...\n"
+printf "${RED}Please follow all prompts below...${NC}\n"
+certbot -d $domainName
+process_id=$!
+wait $process_id
+printf "${GREEN}DONE\n"
 
 #----------------------------------------------------------------
 
