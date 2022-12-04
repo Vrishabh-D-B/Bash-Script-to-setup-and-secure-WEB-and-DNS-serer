@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 #----------------------------------------------------------------
 
 # Reading domain name from user
-echo "${RED}Enter your Domain name (for eg: yourwebsite.com)"
+printf "${RED}Enter your Domain name (for eg: yourwebsite.com)\n"
 read domainName
 
 #----------------------------------------------------------------
@@ -21,9 +21,9 @@ wait $process_id
 #----------------------------------------------------------------
 
 # Directory to protect
-echo "${RED}Enter Directory name you want to protect 
+printf "${RED}Enter Directory name you want to protect 
 (for eg:- if you want to protect access to yourwebsite.com/admin/
-Enter \"admin\" below without quotes): "
+Enter \"admin\" below without quotes): \n"
 read directoryToProtect
 
 if [ !-d "$directoryToProtect" ]; then
@@ -42,5 +42,5 @@ echo "
 </VirtualHost>
 </IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
 
-echo "${GREEN}DONE"
-echo "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP"
+printf "${GREEN}DONE\n"
+printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n"
