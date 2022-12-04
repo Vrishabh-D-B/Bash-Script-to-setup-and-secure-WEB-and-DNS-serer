@@ -256,3 +256,66 @@ if [[ "$yORn" == "y" ]]; then
   done
 fi
 printf "${GREEN}DONE${NC}\n"
+
+#----------------------------------------------------------------
+
+# restarting apache2
+printf "${YELLOW}Restarting apache2...\n"
+systemctl restart apache2
+process_id=$!
+wait $process_id
+printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
+
+# HTTP Digest Authentication
+printf "${RED}Do want to protect certain directories using username and password ? ${CYAN}(y/n):"
+read yORn
+
+if [[ "$yORn" == "y" ]]; then
+
+  apt install apache2-utils -y > /home/logs 2> /home/errorLogs
+  process_id=$!
+  wait $process_id
+
+  printf "\n${RED}Enter user name :"
+  read userName
+  
+  htdigest -c /etc/apache2/.htpasswd myserver $userName
+  process_id=$!
+  wait $process_id
+
+  wishToAddMore="y"
+  until [[ $wishToAddMore == "n" ]] 
+  do
+    printf "${RED}\nEnter Directory name you want to protect \n(for eg:- if you want to protect access to yourwebsite.com/admin/ \nEnter \"admin\" below without quotes):${NC}"
+    read directoryToProtect
+
+    if [ ! -d "/var/www/$domainName/$directoryToProtect" ]; then
+      mkdir /var/www/$domainName/$directoryToProtect
+      sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
+      sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
+
+      echo -e "\n<Directory /var/www/$domainName/$directoryToProtect>\nAuthType Digest\nAuthName \"myserver\"\nAuthDigestProvider file\nAuthUserFile /etc/apache2/.htpasswd\nRequire valid-user\n</Directory>\n\n</VirtualHost>\n</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
+      a2enmod auth_digest > /home/logs 2> /home/errorLogs
+
+      printf "${GREEN}DONE\n"
+      printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}\n"
+      printf "${RED}Do wish to add more Directories ${CYAN}(y/n):${NC}"
+      read wishToAddMore
+    else
+      printf "\n${YELLOW}Directory already exits use different name${NC}\n"
+    fi
+  done
+fi
+
+#----------------------------------------------------------------
+
+# restarting apache2
+printf "${YELLOW}Restarting apache2...\n"
+systemctl restart apache2
+process_id=$!
+wait $process_id
+printf "${GREEN}DONE\n${NC}"
+
+#----------------------------------------------------------------
