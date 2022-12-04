@@ -245,7 +245,7 @@ if [[ "$yORn" == "y" ]]; then
     sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
     sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 
-    echo -e \n"<Directory /var/www/$domainName/$directoryToProtect>\nRequire all denied\nRequire ip $ipAddress\n</Directory>\n\n</VirtualHost>\n</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
+    echo -e "\n<Directory /var/www/$domainName/$directoryToProtect>\nRequire all denied\nRequire ip $ipAddress\n</Directory>\n\n</VirtualHost>\n</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
 
     printf "${GREEN}DONE\n"
     printf "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP\n${NC}\n"
