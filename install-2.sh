@@ -28,5 +28,4 @@ echo "
 </Directory>
 
 </VirtualHost>
-</IfModule>" >> $domainName-le-ssl.conf
-cp $domainName-le-ssl.conf /etc/apache2/sites-available/$domainName-le-ssl.conf
+</IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
