@@ -1,5 +1,14 @@
+# Colors
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m' 
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+#----------------------------------------------------------------
+
 # Reading domain name from user
-echo "Enter your Domain name (for eg: yourwebsite.com)"
+echo "${RED}Enter your Domain name (for eg: yourwebsite.com)"
 read domainName
 
 #----------------------------------------------------------------
@@ -12,11 +21,14 @@ wait $process_id
 #----------------------------------------------------------------
 
 # Directory to protect
-echo "Enter Directory name you want to protect 
+echo "${RED}Enter Directory name you want to protect 
 (for eg:- if you want to protect access to yourwebsite.com/admin/
-Enter admin below): "
+Enter \"admin\" below without quotes): "
 read directoryToProtect
-mkdir /var/www/$domainName/$directoryToProtect
+
+if [ !-d "$directoryToProtect" ]; then
+  mkdir /var/www/$domainName/$directoryToProtect
+fi
 
 sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
 sed -i '$ d' /etc/apache2/sites-available/$domainName-le-ssl.conf
@@ -29,3 +41,6 @@ echo "
 
 </VirtualHost>
 </IfModule>" >> /etc/apache2/sites-available/$domainName-le-ssl.conf
+
+echo "${GREEN}DONE"
+echo "${CYAN}Now $domainName/$directoryToProtect is only accessible to your IP"
