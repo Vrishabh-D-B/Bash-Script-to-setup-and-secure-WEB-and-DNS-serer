@@ -231,9 +231,10 @@ printf "${GREEN}DONE\n${NC}"
 printf "${RED}Do want to protect certain directories from outsite acess (for eg:- yourwebsite.com/admin) ${CYAN}(y/n)\n"
 read yORn
 
-if [ "$yORn" -eq "y" ]; then
+if [[ "$yORn" == "y" ]]; then
   wishToAddMore="y"
-  until [ $wishToAddMore -ne "n" ] do
+  until [[ $wishToAddMore == "n" ]] 
+  do
     printf "${RED}Enter Directory name you want to protect 
     (for eg:- if you want to protect access to yourwebsite.com/admin/
     Enter \"admin\" below without quotes):${NC} \n"
@@ -260,5 +261,4 @@ if [ "$yORn" -eq "y" ]; then
     printf "${RED}Do wish to add more Directories ${CYAN}(y/n):${NC}"
     read wishToAddMore
   done
-
 fi
